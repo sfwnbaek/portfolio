@@ -1,0 +1,159 @@
+/* src/components/About/About.module.css */
+
+.aboutSection {
+  padding: 6rem 5%;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: #ffffff;
+  position: relative;
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.sectionTitle span {
+  color: #e50914; 
+}
+
+/* Timeline Base */
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.baseLine {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  width: 2px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.glowLine {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  width: 2px;
+  background: #e50914;
+  box-shadow: 0 0 15px #e50914, 0 0 5px #e50914;
+  transition: height 0.1s ease-out;
+  z-index: 1;
+}
+
+.dot {
+  position: absolute;
+  top: 40px;
+  left: -2.5rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #050505;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  z-index: 2;
+  transition: all 0.4s ease;
+}
+
+.milestone.activeDot .dot {
+  background: #e50914;
+  border-color: #e50914;
+  box-shadow: 0 0 12px rgba(229, 9, 20, 0.8);
+}
+
+/* Milestone Animations */
+.milestone {
+  position: relative;
+  margin-bottom: 4rem;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.6s ease-out;
+}
+
+.milestone.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* NEW: Image Card Layout */
+.cardContent {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr; /* Image takes less space, text takes more */
+  gap: 2rem;
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(5px);
+}
+
+.cardContent:hover {
+  border-color: rgba(229, 9, 20, 0.5);
+  box-shadow: 0 10px 30px rgba(229, 9, 20, 0.15);
+  transform: translateY(-5px);
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(229, 9, 20, 0.2);
+}
+
+/* The Black & White to Color Hover Effect */
+.milestoneImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(100%) brightness(0.7);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+.cardContent:hover .milestoneImage {
+  filter: grayscale(0%) brightness(1);
+  transform: scale(1.05);
+}
+
+/* Typography inside card */
+.textContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.year {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  color: #e50914;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.description {
+  color: #a1a1aa;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .cardContent {
+    grid-template-columns: 1fr; /* Stacks image on top of text on small screens */
+    gap: 1.5rem;
+  }
+  .imageWrapper {
+    height: 220px;
+  }
+}

@@ -1,0 +1,107 @@
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+  .topbar.scrolled {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 1px;
+  }
+
+  .highlight {
+      color: #e63946;
+  }
+
+  .navLinks {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+  }
+
+  .navLinks a {
+      position: relative;
+      text-decoration: none;
+      color: #a0aec0;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding-bottom: 4px;
+      transition: color 0.3s ease;
+  }
+
+  .navLinks a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 2px;
+      background: #e63946;
+      transition: width 0.3s ease;
+  }
+
+  .navLinks a:hover {
+      color: #e63946;
+  }
+
+  .navLinks a:hover::after {
+      width: 100%;
+  }
+
+  .navLinks a.active {
+      color: #e63946;
+  }
+
+  .navLinks a.active::after {
+      width: 100%;
+  }
+
+  .btnIcon {
+      background: none;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      color: white;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+  }
+
+  .btnIcon:hover {
+      transform: rotate(180deg);
+  }
+
+  @media (max-width: 768px) {
+      .topbar {
+          padding: 16px 20px;
+      }
+      .navLinks {
+          gap: 16px;
+      }
+      .navLinks a {
+          font-size: 0.75rem;
+      }
+  }
+

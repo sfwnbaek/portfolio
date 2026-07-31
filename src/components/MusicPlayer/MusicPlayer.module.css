@@ -1,0 +1,528 @@
+/* =========================================================
+   MUSIC DECK — a turntable that unfurls into a control strip
+   ========================================================= */
+
+.music-deck {
+  --deck-red: #e63950;
+  --deck-red-bright: #ff4d68;
+  --deck-ink: #0b0509;
+  --deck-panel: rgba(18, 8, 11, 0.88);
+  --deck-line: rgba(230, 57, 80, 0.28);
+  --deck-text: #f3e9ea;
+  --deck-muted: #a8898f;
+  --deck-disc-size: 64px;
+
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  height: var(--deck-disc-size);
+  font-family: inherit;
+}
+
+/* ---------- the disc / play button ---------- */
+
+.deck-disc {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--deck-disc-size);
+  height: var(--deck-disc-size);
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: radial-gradient(circle at 50% 50%, #1a0d10 0%, #0c0508 70%);
+  box-shadow:
+    0 0 0 1px var(--deck-line),
+    0 6px 18px rgba(0, 0, 0, 0.55),
+    0 0 0 rgba(230, 57, 80, 0);
+  transition: box-shadow 0.4s ease, transform 0.25s ease;
+  z-index: 2;
+}
+
+.deck-disc:hover {
+  transform: scale(1.04);
+}
+
+.deck-disc:focus-visible {
+  outline: 2px solid var(--deck-red-bright);
+  outline-offset: 3px;
+}
+
+.music-deck.is-playing .deck-disc {
+  box-shadow:
+    0 0 0 1px var(--deck-line),
+    0 6px 18px rgba(0, 0, 0, 0.55),
+    0 0 22px rgba(230, 57, 80, 0.45);
+}
+
+.disc-art {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-color: #241014;
+}
+
+.disc-grooves {
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.55) 0px,
+      rgba(0, 0, 0, 0.55) 1px,
+      transparent 2px,
+      transparent 4px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+}
+
+.disc-hole {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--deck-ink);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08);
+  top: calc(50% - 4px);
+  left: calc(50% - 4px);
+}
+
+.deck-disc,
+.disc-art,
+.disc-grooves,
+.disc-hole {
+  animation: deck-spin 6s linear infinite;
+  animation-play-state: paused;
+}
+.deck-disc { animation: none; } /* only inner layers spin, not the button itself */
+
+.music-deck.is-playing .disc-art,
+.music-deck.is-playing .disc-grooves,
+.music-deck.is-playing .disc-hole {
+  animation-play-state: running;
+}
+
+@keyframes deck-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* play / pause glyphs layered on the disc */
+.deck-icon {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  color: var(--deck-text);
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  pointer-events: none;
+}
+.icon-pause { opacity: 0; transform: scale(0.8); }
+.music-deck.is-playing .icon-play { opacity: 0; transform: scale(0.8); }
+.music-deck.is-playing .icon-pause { opacity: 1; transform: scale(1); }
+.deck-icon.icon-play { opacity: 1; transform: scale(1); }
+
+/* ---------- tonearm ---------- */
+
+.deck-tonearm {
+  position: absolute;
+  left: calc(var(--deck-disc-size) - 14px);
+  top: -10px;
+  width: 30px;
+  height: 30px;
+  transform-origin: 26px 6px;
+  transform: rotate(-38deg);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 3;
+  pointer-events: none;
+}
+
+.music-deck.is-playing .deck-tonearm {
+  transform: rotate(4deg);
+}
+
+.tonearm-arm {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 26px;
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #3a2226, var(--deck-red));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.tonearm-pivot {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #241014;
+  box-shadow: 0 0 0 1px var(--deck-line);
+}
+
+/* ---------- the panel that unfurls ---------- */
+
+.deck-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  margin-left: -28px;
+  padding: 0 18px 0 40px;
+  background: var(--deck-panel);
+  border: 1px solid var(--deck-line);
+  border-radius: 999px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+
+  /* CLOSING transition (this is what applies the instant .is-open is
+     removed): quick, no delay, so it folds back into the disc smoothly
+     the moment you stop hovering — instead of just vanishing. */
+  transition:
+    max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    padding 0.4s ease;
+}
+
+.music-deck.is-open .deck-panel {
+  max-width: 460px;
+  opacity: 1;
+  pointer-events: auto;
+
+  /* OPENING transition: a touch slower, panel leads and content
+     cascades in right behind it. */
+  transition:
+    max-width 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.3s ease 0.05s,
+    padding 0.5s ease;
+}
+
+/* Inner rows: same idea, single class drives both directions.
+   Opening = staggered left-to-right pop (transition-delay increases
+   per row). Closing = the base rule below, fast and uniform, with
+   zero delay — a true mirrored fade back into the deck, not a snap. */
+.deck-info,
+.deck-progress-row,
+.deck-controls-row,
+.deck-volume,
+.deck-collapse {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.music-deck.is-open .deck-info {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.32s ease 0.1s, transform 0.32s ease 0.1s;
+}
+.music-deck.is-open .deck-progress-row {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.32s ease 0.18s, transform 0.32s ease 0.18s;
+}
+.music-deck.is-open .deck-controls-row {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.32s ease 0.26s, transform 0.32s ease 0.26s;
+}
+.music-deck.is-open .deck-volume {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.32s ease 0.32s, transform 0.32s ease 0.32s;
+}
+.music-deck.is-open .deck-collapse {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.32s ease 0.38s, transform 0.32s ease 0.38s;
+}
+
+.deck-info {
+  min-width: 120px;
+  max-width: 150px;
+  line-height: 1.15;
+}
+
+.deck-title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--deck-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deck-artist {
+  margin: 2px 0 0;
+  font-size: 0.7rem;
+  color: var(--deck-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- progress ---------- */
+
+.deck-progress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deck-time {
+  font-size: 0.65rem;
+  color: var(--deck-muted);
+  font-variant-numeric: tabular-nums;
+  width: 30px;
+  text-align: center;
+}
+
+.deck-progress-track {
+  position: relative;
+  width: 110px;
+  height: 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.deck-progress-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--deck-red), var(--deck-red-bright));
+}
+
+.deck-progress-handle {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--deck-text);
+  box-shadow: 0 0 0 3px rgba(230, 57, 80, 0.35);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.15s ease;
+}
+
+.deck-progress-track:hover .deck-progress-handle,
+.deck-progress-track:focus-visible .deck-progress-handle,
+.deck-progress-track.is-dragging .deck-progress-handle {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.deck-progress-track:focus-visible {
+  outline: 2px solid var(--deck-red-bright);
+  outline-offset: 3px;
+}
+
+/* ---------- transport controls ---------- */
+
+.deck-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.deck-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--deck-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.deck-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.deck-btn:hover {
+  color: var(--deck-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.deck-btn:active {
+  transform: scale(0.9);
+}
+
+.deck-btn-main {
+  width: 30px;
+  height: 30px;
+  color: var(--deck-ink);
+  background: var(--deck-red);
+}
+
+.deck-btn-main:hover {
+  background: var(--deck-red-bright);
+  color: var(--deck-ink);
+}
+
+.deck-btn-main svg {
+  width: 15px;
+  height: 15px;
+}
+
+.deck-btn-main .icon-pause { display: none; }
+.music-deck.is-playing .deck-btn-main .icon-play { display: none; }
+.music-deck.is-playing .deck-btn-main .icon-pause { display: block; }
+
+/* ---------- volume ---------- */
+
+.deck-volume {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 2px;
+}
+
+.deck-volume .deck-btn {
+  position: relative;
+  z-index: 1;
+}
+
+.icon-vol-muted { display: none; }
+.deck-volume.is-muted .icon-vol-high { display: none; }
+.deck-volume.is-muted .icon-vol-muted { display: block; }
+
+.deck-volume-slider {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 0;
+  height: 3px;
+  margin: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0;
+  overflow: hidden;
+  background: linear-gradient(
+    to right,
+    var(--deck-red) 0%,
+    var(--deck-red) var(--vol, 80%),
+    rgba(255, 255, 255, 0.15) var(--vol, 80%),
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  transition: width 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+}
+
+.deck-volume:hover .deck-volume-slider,
+.deck-volume:focus-within .deck-volume-slider {
+  width: 56px;
+  opacity: 1;
+  margin-left: 2px;
+}
+
+.deck-volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--deck-text);
+  box-shadow: 0 0 0 3px rgba(230, 57, 80, 0.35);
+  cursor: pointer;
+}
+
+.deck-volume-slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: none;
+  border-radius: 50%;
+  background: var(--deck-text);
+  box-shadow: 0 0 0 3px rgba(230, 57, 80, 0.35);
+  cursor: pointer;
+}
+
+.deck-volume-slider::-moz-range-track {
+  height: 3px;
+  border-radius: 3px;
+  background: transparent;
+}
+
+/* ---------- collapse ---------- */
+
+.deck-collapse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--deck-muted);
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+.deck-collapse svg {
+  width: 14px;
+  height: 14px;
+}
+
+.deck-collapse:hover {
+  color: var(--deck-text);
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 560px) {
+  .music-deck {
+    left: 14px;
+    bottom: 14px;
+    --deck-disc-size: 56px;
+  }
+
+  .deck-info { display: none; }
+
+  .music-deck.is-open .deck-panel {
+    max-width: 210px;
+  }
+
+  .deck-progress-track { width: 70px; }
+  .deck-volume { display: none; }
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .disc-art,
+  .disc-grooves,
+  .disc-hole,
+  .deck-tonearm,
+  .deck-panel,
+  .deck-disc {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

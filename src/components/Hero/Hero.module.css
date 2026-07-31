@@ -1,0 +1,421 @@
+/* ========================================================== */
+/* Hero section container                                     */
+/* ========================================================== */
+.heroSection {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 20px 80px;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+}
+
+.heroContentWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    max-width: 1000px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* ========================================================== */
+/* Avatar                                                      */
+/* ========================================================== */
+.avatarContainer {
+    position: relative;
+    perspective: 1000px;
+}
+
+.ambientBlob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 380px;
+    height: 380px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(230, 57, 70, 0.35) 0%, rgba(230, 57, 70, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(20px);
+    z-index: -1;
+}
+
+.profileAvatar {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(230, 57, 70, 0.5);
+    box-shadow: 0 0 40px rgba(230, 57, 70, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+    cursor: pointer;
+}
+
+.factCard {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.85);
+    width: 260px;
+    padding: 20px;
+    background: rgba(15, 15, 20, 0.92);
+    border: 1px solid rgba(230, 57, 70, 0.3);
+    border-radius: 16px;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #f1f1f1;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 5;
+    backdrop-filter: blur(10px);
+}
+
+.factCard.isVisible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+
+/* ========================================================== */
+/* Text content                                                */
+/* ========================================================== */
+.textContent {
+    text-align: left;
+    flex: 1;
+}
+
+.textContent h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin: 0 0 20px;
+    letter-spacing: -1px;
+    color: #ffffff;
+}
+
+.highlight {
+    color: #e63946;
+}
+
+.typingCursor {
+    display: inline-block;
+    width: 4px;
+    height: 1.1em;
+    background-color: #e63946;
+    animation: blink 0.8s infinite;
+    vertical-align: middle;
+    margin-left: 8px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.roleText {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 20px;
+    color: #a0aec0;
+    min-height: 1.6em;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #a0aec0;
+    margin: 0 0 40px;
+    max-width: 600px;
+}
+
+/* Subtitle + badge + buttons fade in after the name finishes typing */
+.fadeInContent {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fadeInContent.isVisible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========================================================== */
+/* Availability badge                                          */
+/* ========================================================== */
+.availabilityBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    margin-bottom: 20px;
+    background: rgba(230, 57, 70, 0.08);
+    border: 1px solid rgba(230, 57, 70, 0.25);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: #e63946;
+}
+
+.pulseDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #2ecc71;
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+}
+
+/* ========================================================== */
+/* Buttons / social links                                      */
+/* ========================================================== */
+.socialLinks {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 24px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    transition: transform 0.15s ease-out, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: rgba(230, 57, 70, 0.2);
+    border-color: #e63946;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.socialIconBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.socialIconBtn i {
+    font-size: 18px;
+    transition: transform 0.2s ease;
+}
+
+.socialIconBtn:hover i {
+    transform: scale(1.1);
+}
+
+.hireActionBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ========================================================== */
+/* Skill ticker                                                */
+/* ========================================================== */
+.tickerWrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 30px auto 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.skillTicker {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    padding: 12px 0;
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
+}
+
+.tickerTrack {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: seamlessLoop 25s linear infinite;
+}
+
+.skillTicker:hover .tickerTrack {
+    animation-play-state: paused;
+}
+
+.tickerGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.tickerItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 18px;
+    color: #ffffff;
+    font-weight: 600;
+    opacity: 0.75;
+    transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.tickerItem i {
+    font-size: 0.85em;
+    color: #e63946;
+    opacity: 0.7;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.tickerItem:hover {
+    opacity: 1;
+    color: #e63946;
+}
+
+.tickerItem:hover i {
+    opacity: 1;
+    transform: scale(1.2) rotate(-6deg);
+}
+
+.tickerItem:not(:last-child)::after {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    margin-left: 18px;
+}
+
+@keyframes seamlessLoop {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ========================================================== */
+/* Scroll indicator                                             */
+/* ========================================================== */
+.scrollIndicator {
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.scrollIndicator:hover {
+    opacity: 1;
+}
+
+.scrollIndicator.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.mouse {
+    width: 24px;
+    height: 38px;
+    border: 2px solid #a0aec0;
+    border-radius: 15px;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background: #e63946;
+    border-radius: 2px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 1.5s infinite;
+}
+
+@keyframes scrollWheel {
+    0% { top: 6px; opacity: 1; }
+    100% { top: 20px; opacity: 0; }
+}
+
+/* ========================================================== */
+/* Scroll-shrink state (applied via .scrolled on heroSection)  */
+/* ========================================================== */
+.heroSection.scrolled .profileAvatar {
+    width: 220px;
+    height: 220px;
+}
+
+.heroSection.scrolled .ambientBlob {
+    opacity: 0.4;
+}
+
+/* ========================================================== */
+/* Mobile                                                       */
+/* ========================================================== */
+@media (max-width: 768px) {
+    .heroContentWrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .textContent {
+        text-align: center;
+    }
+    .socialLinks {
+        justify-content: center;
+    }
+    .profileAvatar {
+        width: 220px;
+        height: 220px;
+    }
+}
+
+/* ========================================================== */
+/* Resume Button                                                */
+/* ========================================================== */
+.resumeBtn {
+    background-color: transparent;
+    border: 1px solid rgba(230, 57, 70, 0.4);
+    color: #e63946;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.resumeBtn:hover {
+    background-color: rgba(230, 57, 70, 0.15);
+    border-color: #e63946;
+}

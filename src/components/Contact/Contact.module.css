@@ -1,0 +1,151 @@
+.contactSection {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.commsPanel {
+  background: rgba(10, 5, 8, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(229, 9, 20, 0.2);
+  border-radius: 16px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 
+              inset 0 0 20px rgba(229, 9, 20, 0.05);
+}
+
+.sectionTitle {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  color: #a8898f;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-family: monospace;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.inputField {
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f3e9ea;
+  font-size: 1rem;
+  padding: 0.8rem 1rem;
+  font-family: monospace;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.inputField:focus {
+  border-bottom: 1px solid #e50914;
+  background: rgba(229, 9, 20, 0.05);
+}
+
+.inputField::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+textarea.inputField {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* --- The Hold-to-Transmit Button --- */
+.transmitBtn {
+  position: relative;
+  width: 100%;
+  padding: 1rem;
+  background: transparent;
+  border: 1px solid #e50914;
+  color: #e50914;
+  font-size: 1rem;
+  font-weight: bold;
+  letter-spacing: 3px;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  user-select: none;
+  touch-action: manipulation; /* Helps with mobile holding */
+}
+
+/* The red energy bar that fills up */
+.progressFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #e50914;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The text sits on top of the energy bar */
+.btnText {
+  position: relative;
+  z-index: 1;
+  transition: color 0.1s ease;
+}
+
+/* When holding, text turns white for contrast against the red fill */
+.isHolding .btnText {
+  color: #fff;
+}
+
+/* The violent shake animation as pressure builds */
+.isHolding {
+  animation: shake 0.4s infinite;
+  box-shadow: 0 0 15px rgba(229, 9, 20, 0.6);
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* --- Success State --- */
+.isSent {
+  background: #fff;
+  border-color: #fff;
+  color: #050505;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  pointer-events: none;
+}
+
+.isSent .progressFill {
+  display: none;
+}
+
+.isSent .btnText {
+  color: #050505;
+}
