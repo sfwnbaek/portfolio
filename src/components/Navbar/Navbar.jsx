@@ -36,22 +36,21 @@ export default function Navbar() {
         return () => observer.disconnect();
     }, []);
 
-    // 🚀 THE NUCLEAR FIX: Custom Animation Engine
+    // Custom Animation Engine
     function handleNavClick(e, target) {
         e.preventDefault();
         const el = document.getElementById(target);
         if (!el) return;
 
-        const navbarHeight = 80; // Offset for your navbar
+        const navbarHeight = 80;
         const elementPosition = el.getBoundingClientRect().top;
         const targetPosition = elementPosition + window.scrollY - navbarHeight;
         const startPosition = window.scrollY;
         const distance = targetPosition - startPosition;
         
         let startTime = null;
-        const duration = 600; // Animation speed in milliseconds (change to 800 for slower glide)
+        const duration = 600;
 
-        // Smooth easing math (Ease-in-out Quad)
         const ease = (t, b, c, d) => {
             t /= d / 2;
             if (t < 1) return c / 2 * t * t + b;
@@ -59,7 +58,6 @@ export default function Navbar() {
             return -c / 2 * (t * (t - 2) - 1) + b;
         };
 
-        // Frame-by-frame animation loop
         function animation(currentTime) {
             if (startTime === null) startTime = currentTime;
             const timeElapsed = currentTime - startTime;
@@ -70,7 +68,6 @@ export default function Navbar() {
             if (timeElapsed < duration) {
                 requestAnimationFrame(animation);
             } else {
-                // Snap to exact position at the very end to be precise
                 window.scrollTo(0, targetPosition);
                 setActiveSection(target);
             }
@@ -100,9 +97,17 @@ export default function Navbar() {
             </ul>
 
             <div className={styles.themeToggleWrapper}>
-                <button id="theme-toggle" className={styles.btnIcon} aria-label="Toggle theme">
-                    🌙
-                </button>
+                {/* Converted to an anchor tag styled as a button so the YouTube link actually opens! */}
+                <a 
+                    id="theme-toggle" 
+                    className={styles.btnIcon} 
+                    href="https://youtu.be/dQw4w9WgXcQ" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    aria-label="Secret Link"
+                >
+                    {/* Optional: leave empty or put an icon/emoji if you want it visible */}
+                </a>
             </div>
         </nav>
     );
