@@ -8,7 +8,7 @@ export const projectData = [
     tech: ['Laravel 13', 'Livewire', 'Tailwind CSS', 'Docker'],
     iframeSrc: 'https://wafina-wedding-production.up.railway.app/login', 
     demo: 'https://wafina-wedding-production.up.railway.app/login',
-    github: '#'
+    github: 'https://github.com/sfwnbaek/wafina-wedding'
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const projectData = [
     tech: ['PHP', 'SQL', 'JavaScript', 'HTML/CSS'],
     iframeSrc: 'https://spinkt6t.nexusmandiri.com', 
     demo: 'https://spinkt6t.nexusmandiri.com',
-    github: '#'
+    github: 'https://github.com/sfwnbaek/SPIN-System-KT6T'
   },
   {
     id: 3,

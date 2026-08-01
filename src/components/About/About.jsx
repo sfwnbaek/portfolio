@@ -1,94 +1,120 @@
-// src/components/About/About.jsx
-import React, { useEffect, useRef, useState } from 'react';
-import styles from './About.module.css';
-import { timelineData } from './About.js'; 
+import React, { useState, useEffect } from "react";
+import styles from "./About.module.css";
+import { aboutData } from "./AboutData.js"; 
 
 export default function About() {
-  const timelineRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
+  const [isGlitching, setIsGlitching] = useState(false);
+  const [typedText, setTypedText] = useState("");
+  
+  const currentExp = aboutData[currentIndex];
 
-  // Scroll logic
+  // 🚀 Terminal Typing Effect Logic
   useEffect(() => {
-    const handleScroll = () => {
-      if (!timelineRef.current) return;
-      const rect = timelineRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const scrollableDistance = rect.height;
-      const scrolled = (windowHeight / 1.5) - rect.top;
+    setTypedText(""); 
+    
+    // Combine the role, date, and desc into one terminal output string
+    const fullText = `[ROLE]: ${currentExp.role}\n[DATE]: ${currentExp.date}\n\n${currentExp.desc}`;
+    
+    let currentString = "";
+    let i = 0;
+    
+    const typingInterval = setInterval(() => {
+      if (i < fullText.length) {
+        currentString += fullText.charAt(i);
+        setTypedText(currentString);
+        i++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 15); // Speed of the typing
 
-      let progress = (scrolled / scrollableDistance) * 100;
-      progress = Math.max(0, Math.min(progress, 100)); 
-      setScrollProgress(progress);
-    };
+    return () => clearInterval(typingInterval);
+  }, [currentIndex]); 
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // 🚀 Master Navigation Controls
+  const handleNextExp = () => {
+    setCurrentIndex((prev) => (prev + 1) % aboutData.length);
+    setImageIndex(0); 
+  };
 
-  // Fade-in animation logic
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add(styles.visible);
-          }
-        });
-      },
-      { threshold: 0.2 } 
-    );
+  const handlePrevExp = () => {
+    setCurrentIndex((prev) => (prev - 1 + aboutData.length) % aboutData.length);
+    setImageIndex(0);
+  };
 
-    const items = document.querySelectorAll(`.${styles.milestone}`);
-    items.forEach((item) => observer.observe(item));
+  // 🚀 Child Navigation Controls (Click to Glitch Image)
+  const handleImageClick = () => {
+    if (currentExp.images.length <= 1 || isGlitching) return;
 
-    return () => observer.disconnect();
-  }, []);
+    setIsGlitching(true);
+
+    // Swap the image halfway through the glitch
+    setTimeout(() => {
+      setImageIndex((prev) => (prev + 1) % currentExp.images.length);
+    }, 150);
+
+    // Stop glitching after 300ms
+    setTimeout(() => {
+      setIsGlitching(false);
+    }, 300);
+  };
 
   return (
     <section id="about" className={styles.aboutSection}>
-      <h2 className={styles.sectionTitle}>
-        My <span>Journey</span>
-      </h2>
+      <h2 className={styles.sectionTitle}>ABOUT ME</h2>
 
-      <div className={styles.timeline} ref={timelineRef}>
-        <div className={styles.baseLine}></div>
-        <div className={styles.glowLine} style={{ height: `${scrollProgress}%` }}></div>
+      <div className={styles.splitContainer}>
+        
+        {/* Left Arrow */}
+        <button className={styles.navArrow} onClick={handlePrevExp}>&lt;</button>
 
-        {timelineData.map((item, index) => {
-          const dotThreshold = (index / timelineData.length) * 100;
-          const isActive = scrollProgress > dotThreshold;
-
-          return (
-            <div 
-              key={index} 
-              className={`${styles.milestone} ${isActive ? styles.activeDot : ''}`}
-            >
+        {/* 💻 LEFT PANE: MOCK TERMINAL */}
+        <div className={styles.terminalPane}>
+          <div className={styles.terminalHeader}>
+            <div className={styles.macDots}>
               <div className={styles.dot}></div>
-              
-              {/* NEW: The Interactive Image Card */}
-              <div className={styles.cardContent}>
-                
-                {/* Image Side */}
-                <div className={styles.imageWrapper}>
-                  <img 
-                    src={item.image} 
-                    alt={item.title} 
-                    className={styles.milestoneImage} 
-                  />
-                </div>
-
-                {/* Text Side */}
-                <div className={styles.textContent}>
-                  <span className={styles.year}>// {item.year}</span>
-                  <h3 className={styles.title}>{item.title}</h3>
-                  <p className={styles.description}>{item.description}</p>
-                </div>
-                
-              </div>
-
+              <div className={styles.dot}></div>
+              <div className={styles.dot}></div>
             </div>
-          );
-        })}
+            <span className={styles.terminalTitle}>Experience</span>
+          </div>
+          
+          <div className={styles.terminalBody}>
+            <div>
+              <span className={styles.terminalCommand}>&gt; execute</span> {currentExp.id}.sh
+            </div>
+            <div className={styles.terminalOutput}>
+              <span>{typedText}</span>
+              <span className={styles.cursor}></span>
+            </div>
+          </div>
+        </div>
+
+        {/* 🖼️ RIGHT PANE: MEDIA VIEWER */}
+        <div className={styles.mediaPane} onClick={handleImageClick}>
+          <div className={`${styles.imageWrapper} ${isGlitching ? styles.isGlitching : ""}`}>
+            <img 
+              src={currentExp.images[imageIndex]} 
+              alt={currentExp.role} 
+              className={styles.mediaImage} 
+            />
+          </div>
+
+          {currentExp.images.length > 1 && (
+            <>
+              <span className={styles.imageCounter}>
+                [ {imageIndex + 1} / {currentExp.images.length} ]
+              </span>
+              <span className={styles.clickHint}>CLICK TO DECRYPT NEXT</span>
+            </>
+          )}
+        </div>
+
+        {/* Right Arrow */}
+        <button className={styles.navArrow} onClick={handleNextExp}>&gt;</button>
+
       </div>
     </section>
   );

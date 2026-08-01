@@ -171,7 +171,7 @@
 .controls {
   display: flex;
   gap: 2.5rem;
-  margin-top: 4rem;
+  margin-top: 2rem; /* 🚀 Reduced from 4rem to bring it much closer! */
 }
 
 .navBtn {

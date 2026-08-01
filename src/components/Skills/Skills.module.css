@@ -1,54 +1,163 @@
-.skillsSection {
-  padding: 6rem 5%;
-  max-width: 1100px;
-  margin: 0 auto;
-}
+  .skillsSection {
+    min-height: 100vh;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
 
-.sectionTitle {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 3rem;
-  text-align: center;
-}
+  .sectionTitle {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 4rem; /* 🚀 Increased from 0.5rem to give it that nice gap! */
+  letter-spacing: 2px;
+  } 
 
-.sectionTitle span {
-  color: #e50914;
-}
+/* You can delete the .subtitle class below this! */
 
-.categoriesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
 
-.categoryCard {
-  background: #0d0d0d;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 1.5rem;
-}
-
-.categoryTitle {
-  color: #e50914;
-  font-family: 'Fira Code', monospace;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid rgba(229, 9, 20, 0.2);
-  padding-bottom: 0.5rem;
-}
-
-.skillList {
+  /* --- The Pyramid Layout --- */
+.gridContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  justify-content: center; /* 🚀 Automatically centers the top 2 items! */
+  gap: 1.5rem; 
+  width: 100%;
+  max-width: 1100px; 
+  perspective: 1000px; 
 }
 
-.skillPill {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #a1a1aa;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+/* 🚀 Forces ALL 5 cards to be the exact same size */
+.bladeWrapper {
+  /* 33.33% ensures exactly 3 fit on the bottom row, while locking all widths to be identical */
+  width: calc(33.333% - 1rem); 
+  
+  /* (Keep your existing 3D properties below) */
+  transition: transform 0.1s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
+
+/* --- Fallback: Makes them stack nicely on smaller screens --- */
+@media (max-width: 1024px) {
+  .bladeWrapper {
+    width: calc(50% - 1rem); /* Fits 2 per row cleanly on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .bladeWrapper {
+    width: 100%; /* Stacks 1 per row on mobile phones */
+    max-width: 380px;
+  }
+}
+
+  /* --- Server Blade Card --- */
+  .bladeWrapper {
+    /* This wrapper holds the 3D transform applied by React */
+    transition: transform 0.1s ease-out;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .blade {
+    background: rgba(10, 5, 8, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: all 0.4s ease;
+    transform: translateZ(20px); /* Pushes the card out slightly in 3D space */
+  }
+
+  .bladeWrapper:hover .blade {
+    border-color: rgba(229, 9, 20, 0.5);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(229, 9, 20, 0.05);
+    background: rgba(15, 5, 8, 0.8);
+  }
+
+  /* --- Header / Icon --- */
+  .bladeHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+  }
+
+  .iconWrapper {
+    color: #e50914;
+    width: 30px;
+    height: 30px;
+    opacity: 0.7;
+    transition: all 0.4s ease;
+  }
+
+  .bladeWrapper:hover .iconWrapper {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(229, 9, 20, 0.8));
+  }
+
+  .categoryTitle {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* --- Skills List (Boot-up Animation) --- */
+  .skillList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .skillItem {
+    color: rgba(255, 255, 255, 0.6);
+    font-family: monospace;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  /* The "LED Status Indicator" dot */
+  .skillItem::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-right: 12px;
+    transition: all 0.3s ease;
+  }
+
+  /* Hovering the blade lights up the text and LEDs */
+  .bladeWrapper:hover .skillItem {
+    color: #fff;
+  }
+
+  .bladeWrapper:hover .skillItem::before {
+    background-color: #00ff00; /* Matrix Green boot-up */
+    box-shadow: 0 0 10px #00ff00;
+  }
+
+  /* Optional: Stagger the LED lights so they turn on top-to-bottom */
+  .bladeWrapper:hover .skillItem:nth-child(1)::before { transition-delay: 0.1s; }
+  .bladeWrapper:hover .skillItem:nth-child(2)::before { transition-delay: 0.2s; }
+  .bladeWrapper:hover .skillItem:nth-child(3)::before { transition-delay: 0.3s; }
+  .bladeWrapper:hover .skillItem:nth-child(4)::before { transition-delay: 0.4s; }
+  .bladeWrapper:hover .skillItem:nth-child(5)::before { transition-delay: 0.5s; }
+  .bladeWrapper:hover .skillItem:nth-child(6)::before { transition-delay: 0.6s; }

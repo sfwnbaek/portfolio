@@ -29,7 +29,7 @@ export default function Projects() {
 
   return (
     <section id="projects" className={styles.projectsSection}>
-      <h2 className={styles.sectionTitle}>SYSTEM.PROJECTS</h2>
+      <h2 className={styles.sectionTitle}>PROJECT SHOWCASE</h2>
 
       <div className={styles.carouselContainer}>
         {projectData.map((project, index) => (

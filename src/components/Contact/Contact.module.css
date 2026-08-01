@@ -1,151 +1,142 @@
 .contactSection {
-  min-height: 100vh;
+  min-height: 80vh;
+  padding: 8rem 2rem 4rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
   position: relative;
   z-index: 10;
-}
-
-.commsPanel {
-  background: rgba(10, 5, 8, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(229, 9, 20, 0.2);
-  border-radius: 16px;
-  padding: 3rem;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 
-              inset 0 0 20px rgba(229, 9, 20, 0.05);
+  overflow: hidden;
 }
 
 .sectionTitle {
   color: #fff;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
-  text-align: center;
+  margin-bottom: 4rem; /* 🚀 Increased from 0.5rem to give it that nice gap! */
   letter-spacing: 2px;
 }
 
 .subtitle {
-  color: #a8898f;
-  font-size: 0.85rem;
-  text-align: center;
-  margin-bottom: 2.5rem;
+  color: #e50914; 
   font-family: monospace;
+  margin-bottom: 5rem;
+  letter-spacing: 1px;
 }
 
-.formGroup {
+/* --- The Radar Background Animation --- */
+.beaconContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* So the user can click through it */
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.beaconRing {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(229, 9, 20, 0.8);
+  animation: radarPulse 4s infinite cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.beaconRing:nth-child(2) { animation-delay: 1.3s; }
+.beaconRing:nth-child(3) { animation-delay: 2.6s; }
+
+@keyframes radarPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(15); opacity: 0; }
+}
+
+/* --- The Glassmorphic Cards --- */
+.cardGrid {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contactCard {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  background: rgba(10, 5, 8, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.inputField {
-  background: rgba(0, 0, 0, 0.4);
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: #f3e9ea;
-  font-size: 1rem;
-  padding: 0.8rem 1rem;
-  font-family: monospace;
+.contactCard:hover {
+  transform: translateY(-15px); /* Smooth floating lift */
+  border-color: #e50914;
+  background: rgba(20, 5, 8, 0.8);
+  box-shadow: 0 20px 40px rgba(229, 9, 20, 0.15), inset 0 0 15px rgba(229, 9, 20, 0.05);
+}
+
+.iconWrapper {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: #fff;
   transition: all 0.3s ease;
-  outline: none;
 }
 
-.inputField:focus {
-  border-bottom: 1px solid #e50914;
-  background: rgba(229, 9, 20, 0.05);
-}
-
-.inputField::placeholder {
-  color: rgba(255, 255, 255, 0.2);
-}
-
-textarea.inputField {
-  resize: vertical;
-  min-height: 100px;
-}
-
-/* --- The Hold-to-Transmit Button --- */
-.transmitBtn {
-  position: relative;
-  width: 100%;
-  padding: 1rem;
-  background: transparent;
-  border: 1px solid #e50914;
+.contactCard:hover .iconWrapper {
+  background: rgba(229, 9, 20, 0.1);
+  border-color: #e50914;
   color: #e50914;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+}
+
+.cardTitle {
+  color: #fff;
   font-size: 1rem;
-  font-weight: bold;
-  letter-spacing: 3px;
-  cursor: pointer;
-  overflow: hidden;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  user-select: none;
-  touch-action: manipulation; /* Helps with mobile holding */
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.5rem;
 }
 
-/* The red energy bar that fills up */
-.progressFill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: #e50914;
-  z-index: 0;
-  pointer-events: none;
+.cardLabel {
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
 }
 
-/* The text sits on top of the energy bar */
-.btnText {
-  position: relative;
-  z-index: 1;
-  transition: color 0.1s ease;
-}
-
-/* When holding, text turns white for contrast against the red fill */
-.isHolding .btnText {
+.contactCard:hover .cardLabel {
   color: #fff;
 }
 
-/* The violent shake animation as pressure builds */
-.isHolding {
-  animation: shake 0.4s infinite;
-  box-shadow: 0 0 15px rgba(229, 9, 20, 0.6);
-}
-
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-/* --- Success State --- */
-.isSent {
-  background: #fff;
-  border-color: #fff;
-  color: #050505;
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
-  pointer-events: none;
-}
-
-.isSent .progressFill {
-  display: none;
-}
-
-.isSent .btnText {
-  color: #050505;
+/* --- System Footer --- */
+.systemFooter {
+  margin-top: 6rem;
+  color: rgba(255, 255, 255, 0.2);
+  font-family: monospace;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-align: center;
 }
