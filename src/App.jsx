@@ -8,6 +8,7 @@ import Skills from './components/Skills/Skills.jsx';
 import Contact from './components/Contact/Contact.jsx';
 import MusicPlayer from './components/MusicPlayer/MusicPlayer.jsx'; 
 
+
 export default function App() {
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
