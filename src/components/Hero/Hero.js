@@ -13,7 +13,7 @@ export const funFacts = [
 ];
 
 export const socialLinks = [
-    { label: 'LinkedIn', icon: 'fa-brands fa-linkedin-in', href: 'https://www.linkedin.com/in/muhammad-safwan-786308249/', external: true },
+    { label: 'LinkedIn', icon: 'fa-brands fa-linkedin-in', href: 'https://www.linkedin.com/in/safwan-io/', external: true },
     { label: 'GitHub', icon: 'fa-brands fa-github', href: 'https://github.com/sfwnbaek', external: true }
 ];
 
