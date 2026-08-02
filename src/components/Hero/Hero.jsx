@@ -49,6 +49,45 @@ export default function Hero() {
         setShowFact((prev) => !prev);
     }
 
+    // 🚀 Custom Smooth Scroll Engine for the "Hire me" button
+    function handleScrollToContact(e) {
+        e.preventDefault();
+        const el = document.getElementById('contact');
+        if (!el) return;
+
+        const navbarHeight = 80;
+        const elementPosition = el.getBoundingClientRect().top;
+        const targetPosition = elementPosition + window.scrollY - navbarHeight;
+        const startPosition = window.scrollY;
+        const distance = targetPosition - startPosition;
+        
+        let startTime = null;
+        const duration = 600;
+
+        const ease = (t, b, c, d) => {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        };
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            
+            const nextPosition = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, nextPosition);
+
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            } else {
+                window.scrollTo(0, targetPosition);
+            }
+        }
+
+        requestAnimationFrame(animation);
+    }
+
     return (
         <section id="home" className={`${styles.heroSection} ${scrolled ? styles.scrolled : ''}`}>
             <div className={styles.heroContentWrapper}>
@@ -77,9 +116,7 @@ export default function Hero() {
                         <span className={styles.typingCursor}></span>
                     </h1>
 
-                    {/* 👇 We moved the roleText INSIDE the fade-in block 👇 */}
                     <div className={`${styles.fadeInContent} ${nameDone ? styles.isVisible : ''}`}>
-                        
                         <p className={styles.roleText}>
                             I'm a <span className={styles.highlight}>{typedRole}</span>
                         </p>
@@ -108,7 +145,12 @@ export default function Hero() {
                                     <i className={link.icon}></i>
                                 </a>
                             ))}
-                            <a href="#contact" className={`${styles.btn} ${styles.magneticBtn} ${styles.hireActionBtn}`}>
+                            {/* 🚀 Attached the custom smooth scroll handler here */}
+                            <a 
+                                href="#contact" 
+                                onClick={handleScrollToContact} 
+                                className={`${styles.btn} ${styles.magneticBtn} ${styles.hireActionBtn}`}
+                            >
                                 <i className="fa-solid fa-envelope"></i>
                                 <span>Hire me</span>
                             </a>

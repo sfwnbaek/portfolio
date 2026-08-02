@@ -1,121 +1,122 @@
-import React, { useState, useEffect } from "react";
-import styles from "./About.module.css";
-import { aboutData } from "./AboutData.js"; 
+  import React, { useState, useEffect } from "react";
+  import styles from "./About.module.css";
+  import { aboutData } from "./AboutData.js"; 
 
-export default function About() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
-  const [isGlitching, setIsGlitching] = useState(false);
-  const [typedText, setTypedText] = useState("");
-  
-  const currentExp = aboutData[currentIndex];
-
-  // 🚀 Terminal Typing Effect Logic
-  useEffect(() => {
-    setTypedText(""); 
+  export default function About() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [imageIndex, setImageIndex] = useState(0);
+    const [isGlitching, setIsGlitching] = useState(false);
+    const [typedText, setTypedText] = useState("");
     
-    // Combine the role, date, and desc into one terminal output string
-    const fullText = `[ROLE]: ${currentExp.role}\n[DATE]: ${currentExp.date}\n\n${currentExp.desc}`;
-    
-    let currentString = "";
-    let i = 0;
-    
-    const typingInterval = setInterval(() => {
-      if (i < fullText.length) {
-        currentString += fullText.charAt(i);
-        setTypedText(currentString);
-        i++;
-      } else {
-        clearInterval(typingInterval);
-      }
-    }, 15); // Speed of the typing
+    const currentExp = aboutData[currentIndex];
+    const currentImgData = currentExp.images[imageIndex];
 
-    return () => clearInterval(typingInterval);
-  }, [currentIndex]); 
+    // 🚀 Terminal Typing Effect (Now triggers on BOTH job change and image change!)
+    useEffect(() => {
+      setTypedText(""); 
+      
+      // Pulls the role, date, and the specific description mapped to the active image
+      const fullText = `[ROLE]: ${currentExp.role}\n[STAGE]: [${imageIndex + 1} / ${currentExp.images.length}]\n[DATE]: ${currentExp.date}\n\n${currentImgData.desc}`;
+      
+      let currentString = "";
+      let i = 0;
+      
+      const typingInterval = setInterval(() => {
+        if (i < fullText.length) {
+          currentString += fullText.charAt(i);
+          setTypedText(currentString);
+          i++;
+        } else {
+          clearInterval(typingInterval);
+        }
+      }, 12); 
 
-  // 🚀 Master Navigation Controls
-  const handleNextExp = () => {
-    setCurrentIndex((prev) => (prev + 1) % aboutData.length);
-    setImageIndex(0); 
-  };
+      return () => clearInterval(typingInterval);
+    }, [currentIndex, imageIndex]); // 👈 Re-runs whenever you switch jobs OR click to the next photo!
 
-  const handlePrevExp = () => {
-    setCurrentIndex((prev) => (prev - 1 + aboutData.length) % aboutData.length);
-    setImageIndex(0);
-  };
+    // Master Navigation Controls
+    const handleNextExp = () => {
+      setCurrentIndex((prev) => (prev + 1) % aboutData.length);
+      setImageIndex(0); 
+    };
 
-  // 🚀 Child Navigation Controls (Click to Glitch Image)
-  const handleImageClick = () => {
-    if (currentExp.images.length <= 1 || isGlitching) return;
+    const handlePrevExp = () => {
+      setCurrentIndex((prev) => (prev - 1 + aboutData.length) % aboutData.length);
+      setImageIndex(0);
+    };
 
-    setIsGlitching(true);
+    // Child Navigation Controls (Click to Glitch Image & Change Description)
+    const handleImageClick = () => {
+      if (currentExp.images.length <= 1 || isGlitching) return;
 
-    // Swap the image halfway through the glitch
-    setTimeout(() => {
-      setImageIndex((prev) => (prev + 1) % currentExp.images.length);
-    }, 150);
+      setIsGlitching(true);
 
-    // Stop glitching after 300ms
-    setTimeout(() => {
-      setIsGlitching(false);
-    }, 300);
-  };
+      // Swap the image index halfway through the glitch
+      setTimeout(() => {
+        setImageIndex((prev) => (prev + 1) % currentExp.images.length);
+      }, 150);
 
-  return (
-    <section id="about" className={styles.aboutSection}>
-      <h2 className={styles.sectionTitle}>ABOUT ME</h2>
+      // Stop glitching after 300ms
+      setTimeout(() => {
+        setIsGlitching(false);
+      }, 300);
+    };
 
-      <div className={styles.splitContainer}>
-        
-        {/* Left Arrow */}
-        <button className={styles.navArrow} onClick={handlePrevExp}>&lt;</button>
+    return (
+      <section id="about" className={styles.aboutSection}>
+        <h2 className={styles.sectionTitle}>ABOUT ME</h2>
 
-        {/* 💻 LEFT PANE: MOCK TERMINAL */}
-        <div className={styles.terminalPane}>
-          <div className={styles.terminalHeader}>
-            <div className={styles.macDots}>
-              <div className={styles.dot}></div>
-              <div className={styles.dot}></div>
-              <div className={styles.dot}></div>
-            </div>
-            <span className={styles.terminalTitle}>Experience</span>
-          </div>
+        <div className={styles.splitContainer}>
           
-          <div className={styles.terminalBody}>
-            <div>
-              <span className={styles.terminalCommand}>&gt; execute</span> {currentExp.id}.sh
+          {/* Left Arrow */}
+          <button className={styles.navArrow} onClick={handlePrevExp}>&lt;</button>
+
+          {/* 💻 LEFT PANE: MOCK TERMINAL */}
+          <div className={styles.terminalPane}>
+            <div className={styles.terminalHeader}>
+              <div className={styles.macDots}>
+                <div className={styles.dot}></div>
+                <div className={styles.dot}></div>
+                <div className={styles.dot}></div>
+              </div>
+              <span className={styles.terminalTitle}>Experience at {currentExp.id}</span>
             </div>
-            <div className={styles.terminalOutput}>
-              <span>{typedText}</span>
-              <span className={styles.cursor}></span>
+            
+            <div className={styles.terminalBody}>
+              <div>
+                <span className={styles.terminalCommand}>&gt; load</span> phase_{imageIndex + 1}.log
+              </div>
+              <div className={styles.terminalOutput}>
+                <span>{typedText}</span>
+                <span className={styles.cursor}></span>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* 🖼️ RIGHT PANE: MEDIA VIEWER */}
-        <div className={styles.mediaPane} onClick={handleImageClick}>
-          <div className={`${styles.imageWrapper} ${isGlitching ? styles.isGlitching : ""}`}>
-            <img 
-              src={currentExp.images[imageIndex]} 
-              alt={currentExp.role} 
-              className={styles.mediaImage} 
-            />
+          {/* 🖼️ RIGHT PANE: MEDIA VIEWER */}
+          <div className={styles.mediaPane} onClick={handleImageClick}>
+            <div className={`${styles.imageWrapper} ${isGlitching ? styles.isGlitching : ""}`}>
+              <img 
+                src={currentImgData.url} 
+                alt={currentExp.role} 
+                className={styles.mediaImage} 
+              />
+            </div>
+
+            {currentExp.images.length > 1 && (
+              <>
+                <span className={styles.imageCounter}>
+                  [ {imageIndex + 1} / {currentExp.images.length} ]
+                </span>
+                <span className={styles.clickHint}>CLICK TO DECRYPT NEXT PHASE</span>
+              </>
+            )}
           </div>
 
-          {currentExp.images.length > 1 && (
-            <>
-              <span className={styles.imageCounter}>
-                [ {imageIndex + 1} / {currentExp.images.length} ]
-              </span>
-              <span className={styles.clickHint}>CLICK TO DECRYPT NEXT</span>
-            </>
-          )}
+          {/* Right Arrow */}
+          <button className={styles.navArrow} onClick={handleNextExp}>&gt;</button>
+
         </div>
-
-        {/* Right Arrow */}
-        <button className={styles.navArrow} onClick={handleNextExp}>&gt;</button>
-
-      </div>
-    </section>
-  );
-}
+      </section>
+    );
+  }
