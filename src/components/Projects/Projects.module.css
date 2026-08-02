@@ -38,17 +38,6 @@
   background: linear-gradient(90deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .sectionTitle { 
-    font-size: 1.8rem; 
-  }
-  .titleContainer {
-    gap: 1rem; /* Brings lines closer to text on small screens */
-  }
-}
-
-
 .projectsSection {
   min-height: 100vh;
   padding: 6rem 2rem;
@@ -207,11 +196,8 @@
 .controls {
   display: flex;
   gap: 2.5rem;
-  /* 🚀 Change this from 2rem to a negative number to pull the buttons UP */
-  margin-top: -1rem; 
-  
-  /* 🚀 Optional: Add this to make sure the buttons stay clickable if they overlap the cards */
-  position: relative;
+  margin-top: -1rem; /* 🚀 Change this from 2rem to a negative number to pull the buttons UP */
+  position: relative; /* 🚀 Optional: Add this to make sure the buttons stay clickable if they overlap the cards */
   z-index: 20; 
 }
 
@@ -259,4 +245,91 @@
 .prevCard .iframeContainer, 
 .nextCard .iframeContainer {
   pointer-events: none; 
+}
+
+/* =========================================
+   📱 MOBILE RESPONSIVE STYLES (PROJECTS)
+========================================= */
+
+@media (max-width: 768px) {
+  /* 1. Standardize section padding */
+  .projectsSection {
+    padding: 4rem 1rem;
+  }
+
+  /* 2. Shrink Title (Matches About & Skills sections) */
+  .sectionTitle { 
+    font-size: 1.8rem; 
+  }
+  .titleContainer {
+    gap: 1rem; 
+    margin-bottom: 2.5rem; 
+  }
+
+  /* 3. Scale down the 3D stage */
+  .carouselContainer {
+    height: 420px; /* Reduced from 600px */
+    perspective: 800px; /* Flattens the 3D perspective slightly for tiny screens */
+  }
+
+  /* 4. Shrink the Cards to Phone Size */
+  .card {
+    width: 85vw; /* Automatically fits exactly 85% of their phone screen */
+    max-width: 340px; /* Safety cap so it doesn't get weird on landscape phones */
+    height: 380px; /* Reduced from 500px */
+  }
+
+  /* Shrink the Image / Iframe area */
+  .cardImage, .iframeContainer {
+    height: 180px; /* Reduced from 320px */
+  }
+
+  /* 5. Tighten the Text and Padding */
+  .cardContent {
+    padding: 1rem;
+  }
+
+  .cardTitle {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .cardDesc {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  /* 6. Stack the footer elements so buttons don't crush the tech tags */
+  .cardFooter {
+    flex-direction: column; /* Stacks tags on top, buttons on bottom */
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .techStack {
+    max-width: 100%;
+  }
+
+  .techBadge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  /* 7. Readjust the 3D Math for Mobile! */
+  .prevCard {
+    /* Pulled in from -65% to -50% so they stay visible on screen */
+    transform: translateX(-50%) scale(0.75) translateZ(-100px) rotateY(15deg);
+  }
+
+  .nextCard {
+    /* Pulled in from 65% to 50% */
+    transform: translateX(50%) scale(0.75) translateZ(-100px) rotateY(-15deg);
+  }
+
+  /* 8. Fix the Navigation Buttons */
+  .controls {
+    gap: 1.5rem;
+    margin-top: 1rem; /* Adjusts where the Next/Prev buttons sit under the smaller cards */
+  }
 }

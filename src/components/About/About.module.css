@@ -48,15 +48,6 @@
   background: linear-gradient(90deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .sectionTitle { 
-    font-size: 1.8rem; 
-  }
-  .titleContainer {
-    gap: 1rem; /* Brings lines closer to text on small screens */
-  }
-}
 
 /* --- Master Layout (SUPERSIZED) --- */
 .splitContainer {
@@ -254,25 +245,74 @@
   opacity: 1;
 }
 
-/* Mobile Fallback */
+/* =========================================
+   📱 MOBILE RESPONSIVE STYLES (ABOUT)
+========================================= */
+
+/* Tablet & Smaller Screens */
 @media (max-width: 1024px) {
   .splitContainer {
-    flex-direction: column;
-  }
-  .mediaPane {
-    min-height: 400px; 
+    flex-direction: column; /* Stacks the Terminal on top of the Image */
   }
   .navArrow {
-    display: none; 
+    display: none; /* Hide the massive arrows on mobile/tablet */
   }
 }
 
-/* Responsive adjustments for the new Header */
+/* Phones Specifically */
 @media (max-width: 768px) {
+  /* 1. Tighten the overall section padding */
+  .aboutSection {
+    padding: 4rem 1rem;
+  }
+
+  .cursor {
+    dispay: none; /* Hides the blinking cursor on mobile for a cleaner look */
+  }
+
+  /* 🚀 NEW: Shrink the Title and tighten the line gap on mobile */
   .sectionTitle { 
     font-size: 1.8rem; 
   }
-  .titleLine {
+  .titleContainer {
+    gap: 1rem; 
+    margin-bottom: 2.5rem; /* Less empty space below title on mobile */
+  }
+
+  /* 2. Fix the split container gap and height */
+  .splitContainer {
+    gap: 1.5rem;
+    min-height: auto; /* Removes the massive 550px minimum height */
+  }
+
+  /* 3. Shrink the terminal UI to fit narrow screens */
+  .terminalHeader {
+    padding: 0.6rem 1rem;
+  }
+
+  .terminalTitle {
+    font-size: 0.85rem;
     margin-left: 1rem;
+  }
+
+  .terminalBody {
+    padding: 1.5rem; /* Reduced from 2.5rem */
+    font-size: 0.9rem; /* Smaller monospace font so it doesn't overflow */
+    gap: 1rem;
+  }
+
+  .terminalOutput {
+    word-break: break-word; /* Forces long links/words to wrap instead of breaking the box */
+  }
+
+  /* 4. Adjust the Image Viewer size */
+  .mediaPane {
+    min-height: 300px; /* Reduced from 400px so it doesn't take up the whole screen */
+  }
+
+  .clickHint {
+    font-size: 0.75rem;
+    bottom: 15px;
+    padding: 0.4rem 0.8rem;
   }
 }

@@ -38,16 +38,6 @@
   background: linear-gradient(90deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .sectionTitle { 
-    font-size: 1.8rem; 
-  }
-  .titleContainer {
-    gap: 1rem; /* Brings lines closer to text on small screens */
-  }
-}
-
 .contactSection {
   min-height: 80vh;
   padding: 8rem 2rem 4rem;
@@ -181,4 +171,71 @@
   font-size: 0.8rem;
   letter-spacing: 2px;
   text-align: center;
+}
+
+/* =========================================
+   📱 MOBILE RESPONSIVE STYLES (CONTACT)
+========================================= */
+
+@media (max-width: 768px) {
+  /* 1. Standardize section padding */
+  .contactSection {
+    padding: 4rem 1rem;
+  }
+
+  /* 2. Shrink Title (Matches all other sections) */
+  .sectionTitle { 
+    font-size: 1.8rem; 
+  }
+  .titleContainer {
+    gap: 1rem; 
+    margin-bottom: 2.5rem; 
+  }
+
+  /* 3. Stack the layout (Assuming you have a container holding the beacon & form) */
+  /* If your container has a different name, swap .contactContainer with your class name! */
+  .contactContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  /* 4. Scale down the Beacon slightly so it doesn't dominate the screen */
+  .beaconContainer {
+    transform: scale(0.8) translateY(-20px);
+    margin-bottom: 0;
+  }
+
+  /* 5. Make Form Inputs Touch-Friendly */
+  .contactForm {
+    width: 100%;
+  }
+
+  /* Replace .input and .textarea with your actual class names */
+  .input, 
+  .textarea {
+    width: 100%;
+    font-size: 1rem; /* 🚀 CRITICAL: Prevents iPhone from auto-zooming when typing! */
+    padding: 0.8rem 1rem; /* Bigger touch targets for thumbs */
+  }
+
+  .textarea {
+    height: 150px; /* Slightly shorter text area for phones */
+  }
+
+  /* 6. Full-Width Submit Button */
+  .submitBtn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* 7. If you have Social Links at the bottom, wrap them nicely */
+  .socialLinks {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
 }
