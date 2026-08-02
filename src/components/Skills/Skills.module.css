@@ -73,6 +73,7 @@
   will-change: transform;
 }
 
+
   /* --- Server Blade Card --- */
   .bladeWrapper {
     /* This wrapper holds the 3D transform applied by React */
@@ -180,7 +181,7 @@
   .bladeWrapper:hover .skillItem:nth-child(5)::before { transition-delay: 0.5s; }
   .bladeWrapper:hover .skillItem:nth-child(6)::before { transition-delay: 0.6s; }
 
-/* =========================================
+  /* =========================================
    📱 MOBILE RESPONSIVE STYLES (SKILLS)
 ========================================= */
 
