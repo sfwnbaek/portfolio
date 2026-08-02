@@ -38,6 +38,15 @@
   background: linear-gradient(90deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
 }
 
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .sectionTitle { 
+    font-size: 1.8rem; 
+  }
+  .titleContainer {
+    gap: 1rem; /* Brings lines closer to text on small screens */
+  }
+}
  
  .skillsSection {
     min-height: 100vh;
@@ -73,6 +82,19 @@
   will-change: transform;
 }
 
+/* --- Fallback: Makes them stack nicely on smaller screens --- */
+@media (max-width: 1024px) {
+  .bladeWrapper {
+    width: calc(50% - 1rem); /* Fits 2 per row cleanly on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .bladeWrapper {
+    width: 100%; /* Stacks 1 per row on mobile phones */
+    max-width: 380px;
+  }
+}
 
   /* --- Server Blade Card --- */
   .bladeWrapper {
@@ -180,53 +202,3 @@
   .bladeWrapper:hover .skillItem:nth-child(4)::before { transition-delay: 0.4s; }
   .bladeWrapper:hover .skillItem:nth-child(5)::before { transition-delay: 0.5s; }
   .bladeWrapper:hover .skillItem:nth-child(6)::before { transition-delay: 0.6s; }
-
-  /* =========================================
-   📱 MOBILE RESPONSIVE STYLES (SKILLS)
-========================================= */
-
-/* Tablets (1024px and below) */
-@media (max-width: 1024px) {
-  .gridContainer {
-    /* If your desktop has 3 or 4 columns, this drops it to 2 columns on tablets */
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 1.5rem;
-  }
-}
-
-/* Phones Specifically (768px and below) */
-@media (max-width: 768px) {
-  /* 1. Tighten the overall section padding */
-  .skillsSection {
-    padding: 4rem 1rem;
-  }
-
-  /* 2. Shrink the Title and tighten the line gap (Matches About section) */
-  .sectionTitle { 
-    font-size: 1.8rem; 
-  }
-  .titleContainer {
-    gap: 1rem; 
-    margin-bottom: 2.5rem; 
-  }
-
-  /* 3. Stack the cards in a single column */
-  .gridContainer {
-    grid-template-columns: 1fr; /* Forces 1 card per row */
-    gap: 1.5rem; /* Tidy spacing between the stacked cards */
-    width: 100%;
-  }
-
-  /* 4. Adjust the inside of the cards (assuming standard names, adjust if yours differ) */
-  .skillCard {
-    padding: 1.5rem; /* Slightly less padding inside the card to save screen space */
-  }
-
-  .cardTitle {
-    font-size: 1.2rem; /* Keeps the category titles crisp but not too large */
-  }
-  
-  .skillItem {
-    font-size: 0.9rem; /* Shrinks the skill tags slightly so more fit on one line */
-  }
-}

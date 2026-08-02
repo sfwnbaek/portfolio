@@ -267,7 +267,7 @@
   }
 
   .cursor {
-    dispay: none; /* Hides the blinking cursor on mobile for a cleaner look */
+    display: none !important;
   }
 
   /* 🚀 NEW: Shrink the Title and tighten the line gap on mobile */
