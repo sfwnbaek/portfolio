@@ -1,4 +1,54 @@
-  .skillsSection {
+ /* --- DUAL CYBER-LINES SECTION HEADERS --- */
+.titleContainer {
+  width: 100%;
+  max-width: 1400px; /* Matches your supersized terminal */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Keeps everything perfectly centered */
+  margin-bottom: 4rem; 
+  gap: 2rem; /* The space between the text and the lines */
+}
+
+.sectionTitle {
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 0;
+  text-transform: uppercase;
+  white-space: nowrap; /* Ensures the title stays on one line */
+}
+
+/* The lines stretching out on the left and right */
+.titleContainer::before,
+.titleContainer::after {
+  content: '';
+  flex: 1; /* Automatically stretches the lines to the edges */
+  height: 1px;
+  box-shadow: 0 0 10px rgba(229, 9, 20, 0.5); /* Subtle red glow */
+}
+
+/* Left line: brightest next to the text, fading out to the left */
+.titleContainer::before {
+  background: linear-gradient(270deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
+}
+
+/* Right line: brightest next to the text, fading out to the right */
+.titleContainer::after {
+  background: linear-gradient(90deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .sectionTitle { 
+    font-size: 1.8rem; 
+  }
+  .titleContainer {
+    gap: 1rem; /* Brings lines closer to text on small screens */
+  }
+}
+ 
+ .skillsSection {
     min-height: 100vh;
     padding: 6rem 2rem;
     display: flex;
@@ -8,15 +58,6 @@
     z-index: 10;
   }
 
-  .sectionTitle {
-  color: #fff;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 4rem; /* 🚀 Increased from 0.5rem to give it that nice gap! */
-  letter-spacing: 2px;
-  } 
-
-/* You can delete the .subtitle class below this! */
 
 
   /* --- The Pyramid Layout --- */

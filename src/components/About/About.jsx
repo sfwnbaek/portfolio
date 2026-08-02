@@ -64,7 +64,10 @@
 
     return (
       <section id="about" className={styles.aboutSection}>
-        <h2 className={styles.sectionTitle}>ABOUT ME</h2>
+      
+      <div className={styles.titleContainer}>
+        <h2 className={styles.sectionTitle}>About Me</h2>
+      </div>
 
         <div className={styles.splitContainer}>
           

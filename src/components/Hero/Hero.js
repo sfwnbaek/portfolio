@@ -5,9 +5,9 @@ export const roles = [
 ];
 
 export const funFacts = [
-    "I once debugged a production issue at 3am fueled purely by instant noodles.",
-    "My first line of code was in Scratch — we've come a long way.",
-    "I can't start a project without renaming variables at least three times.",
+    "I learn Chinese since I was 5 years old btw.",
+    "My first line of code was in Scratch, back in my Chinese primary school days.",
+    "I listen to Kanye West's music while coding, and it actually helps me focus.",
     "Laravel and I have a love-hate relationship with Artisan commands.",
     "I once rebuilt this exact hero section four times before being happy with it."
 ];

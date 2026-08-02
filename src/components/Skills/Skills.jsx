@@ -59,13 +59,18 @@ const SkillCard = ({ data }) => {
 export default function Skills() {
   return (
     <section id="skills" className={styles.skillsSection}>
-      <h2 className={styles.sectionTitle}>SKILLS</h2>
+      
+      {/* 🚀 Updated Title Block with Dual Cyber-Lines */}
+      <div className={styles.titleContainer}>
+        <h2 className={styles.sectionTitle}>Skills</h2>
+      </div>
 
       <div className={styles.gridContainer}>
         {skillsData.map((category) => (
           <SkillCard key={category.id} data={category} />
         ))}
       </div>
+      
     </section>
   );
 }

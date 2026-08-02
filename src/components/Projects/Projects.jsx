@@ -29,7 +29,9 @@ export default function Projects() {
 
   return (
     <section id="projects" className={styles.projectsSection}>
-      <h2 className={styles.sectionTitle}>PROJECT SHOWCASE</h2>
+      <div className={styles.titleContainer}>
+        <h2 className={styles.sectionTitle}>Project Showcase</h2>
+      </div>
 
       <div className={styles.carouselContainer}>
         {projectData.map((project, index) => (

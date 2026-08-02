@@ -13,7 +13,9 @@ export default function Contact() {
         <div className={styles.beaconRing}></div>
       </div>
 
-      <h2 className={styles.sectionTitle}>CONTACT ME</h2>
+      <div className={styles.titleContainer}>
+        <h2 className={styles.sectionTitle}>Contact Me</h2>
+      </div>
 
       {/* 📇 The Glassmorphic Cards */}
       <div className={styles.cardGrid}>

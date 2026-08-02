@@ -8,23 +8,63 @@
   z-index: 10;
 }
 
-.sectionTitle {
-  color: #fff;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 4rem; /* 🚀 Increased from 0.5rem to give it that nice gap! */
-  letter-spacing: 2px;
+/* --- DUAL CYBER-LINES SECTION HEADERS --- */
+.titleContainer {
+  width: 100%;
+  max-width: 1400px; /* Matches your supersized terminal */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Keeps everything perfectly centered */
+  margin-bottom: 4rem; 
+  gap: 2rem; /* The space between the text and the lines */
 }
 
-/* You can delete the .subtitle class below this! */
+.sectionTitle {
+  color: #fff;
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin: 0;
+  text-transform: uppercase;
+  white-space: nowrap; /* Ensures the title stays on one line */
+}
+
+/* The lines stretching out on the left and right */
+.titleContainer::before,
+.titleContainer::after {
+  content: '';
+  flex: 1; /* Automatically stretches the lines to the edges */
+  height: 1px;
+  box-shadow: 0 0 10px rgba(229, 9, 20, 0.5); /* Subtle red glow */
+}
+
+/* Left line: brightest next to the text, fading out to the left */
+.titleContainer::before {
+  background: linear-gradient(270deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
+}
+
+/* Right line: brightest next to the text, fading out to the right */
+.titleContainer::after {
+  background: linear-gradient(90deg, rgba(229, 9, 20, 0.8) 0%, transparent 100%);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .sectionTitle { 
+    font-size: 1.8rem; 
+  }
+  .titleContainer {
+    gap: 1rem; /* Brings lines closer to text on small screens */
+  }
+}
 
 /* --- Master Layout (SUPERSIZED) --- */
 .splitContainer {
   display: flex;
   width: 100%;
-  max-width: 1400px; /* 🚀 Widened to match your massive project cards */
-  min-height: 550px; /* 🚀 Added minimum height to give the terminal tons of room */
-  gap: 3rem;         /* Increased the gap between terminal and image */
+  max-width: 1400px; 
+  min-height: 550px; 
+  gap: 3rem;         
   position: relative;
   align-items: stretch;
 }
@@ -34,7 +74,7 @@
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.2);
-  font-size: 4.5rem; /* 🚀 Massive arrows */
+  font-size: 4.5rem; 
   cursor: pointer;
   transition: all 0.3s ease;
   font-family: monospace;
@@ -54,7 +94,7 @@
   flex: 1;
   background: rgba(5, 5, 5, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px; /* Smoother corners for a bigger window */
+  border-radius: 12px; 
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -63,7 +103,7 @@
 
 .terminalHeader {
   background: rgba(255, 255, 255, 0.05);
-  padding: 0.8rem 1.5rem; /* Taller header bar */
+  padding: 0.8rem 1.5rem; 
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -71,7 +111,7 @@
 
 .macDots {
   display: flex;
-  gap: 8px; /* Bigger dots */
+  gap: 8px; 
 }
 
 .dot {
@@ -86,14 +126,14 @@
 .terminalTitle {
   color: rgba(255, 255, 255, 0.5);
   font-family: monospace;
-  font-size: 1rem; /* Scaled up title */
+  font-size: 1rem; 
   margin-left: 1.5rem;
 }
 
 .terminalBody {
-  padding: 2.5rem; /* More breathing room inside */
+  padding: 2.5rem; 
   font-family: monospace;
-  font-size: 1.1rem; /* 🚀 Scaled up terminal text */
+  font-size: 1.1rem; 
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -107,14 +147,14 @@
 
 .terminalOutput {
   color: rgba(255, 255, 255, 0.8);
-  line-height: 1.8; /* Better readability for bigger text */
+  line-height: 1.8; 
   white-space: pre-wrap; 
 }
 
 /* The Blinking Cursor */
 .cursor {
   display: inline-block;
-  width: 10px; /* Thicker cursor */
+  width: 10px; 
   height: 18px;
   background-color: #00ff00;
   animation: blink 1s step-end infinite;
@@ -220,9 +260,19 @@
     flex-direction: column;
   }
   .mediaPane {
-    min-height: 400px; /* Ensures images are still large on mobile */
+    min-height: 400px; 
   }
   .navArrow {
     display: none; 
+  }
+}
+
+/* Responsive adjustments for the new Header */
+@media (max-width: 768px) {
+  .sectionTitle { 
+    font-size: 1.8rem; 
+  }
+  .titleLine {
+    margin-left: 1rem;
   }
 }
