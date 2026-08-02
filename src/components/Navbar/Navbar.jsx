@@ -5,6 +5,19 @@ import { navLinks } from './Navbar.js';
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState('home');
     const [scrolled, setScrolled] = useState(false);
+    
+    // 🚀 NEW: State for mobile menu
+    const [isMenuOpen, setIsMenuOpen] = useState(false); 
+
+    // 🚀 NEW: Lock screen scrolling when mobile menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [isMenuOpen]);
 
     useEffect(() => {
         function onScroll() {
@@ -39,6 +52,10 @@ export default function Navbar() {
     // Custom Animation Engine
     function handleNavClick(e, target) {
         e.preventDefault();
+        
+        // 🚀 NEW: Close the mobile menu automatically when a link is clicked
+        setIsMenuOpen(false); 
+        
         const el = document.getElementById(target);
         if (!el) return;
 
@@ -78,10 +95,15 @@ export default function Navbar() {
 
     return (
         <nav className={`${styles.topbar} ${scrolled ? styles.scrolled : ''}`}>
+            
+            {/* 🚀 Wrapped logo in a link so clicking it takes you home & closes menu */}
             <div className={styles.logo}>
-                Safwan<span className={styles.highlight}>.</span>
+                <a href="#home" onClick={(e) => handleNavClick(e, 'home')} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Safwan<span className={styles.highlight}>.</span>
+                </a>
             </div>
 
+            {/* DESKTOP LINKS */}
             <ul className={styles.navLinks}>
                 {navLinks.map((link) => (
                     <li key={link.target}>
@@ -96,18 +118,47 @@ export default function Navbar() {
                 ))}
             </ul>
 
-            <div className={styles.themeToggleWrapper}>
-                {/* Converted to an anchor tag styled as a button so the YouTube link actually opens! */}
-                <a 
-                    id="theme-toggle" 
-                    className={styles.btnIcon} 
-                    href="https://youtu.be/dQw4w9WgXcQ" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    aria-label="Secret Link"
+            <div className={styles.rightSection}>
+                <div className={styles.themeToggleWrapper}>
+                    <a 
+                        id="theme-toggle" 
+                        className={styles.btnIcon} 
+                        href="https://youtu.be/dQw4w9WgXcQ" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        aria-label="Secret Link"
+                    >
+                    </a>
+                </div>
+
+                {/* 🚀 NEW: MOBILE HAMBURGER BUTTON */}
+                <button 
+                    className={`${styles.hamburger} ${isMenuOpen ? styles.open : ''}`} 
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label="Toggle Menu"
                 >
-                    {/* Optional: leave empty or put an icon/emoji if you want it visible */}
-                </a>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+
+            {/* 🚀 NEW: FULL SCREEN MOBILE OVERLAY */}
+            <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.mobileOpen : ''}`}>
+                <div className={styles.mobileLinksContainer}>
+                    {navLinks.map((link, index) => (
+                        <a 
+                            key={`mobile-${link.target}`} 
+                            href={`#${link.target}`} 
+                            className={`${styles.mobileLink} ${activeSection === link.target ? styles.mobileActive : ''}`} 
+                            onClick={(e) => handleNavClick(e, link.target)}
+                            style={{ animationDelay: `${index * 0.1}s` }}
+                        >
+                            <span className={styles.mobileNum}>0{index + 1}</span> 
+                            {link.label}
+                        </a>
+                    ))}
+                </div>
             </div>
         </nav>
     );
