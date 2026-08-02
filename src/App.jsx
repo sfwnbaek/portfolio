@@ -9,8 +9,10 @@ import Contact from './components/Contact/Contact.jsx';
 import MusicPlayer from './components/MusicPlayer/MusicPlayer.jsx'; 
 
 export default function App() {
-  // 🚀 NEW: State to track if the user is on a mobile device
-  const [isMobile, setIsMobile] = useState(false);
+  // 🚀 Checks the screen size IMMEDIATELY instead of starting 'false'
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  );
 
   // 🚀 NEW: Detect screen size on load and when resizing
   useEffect(() => {
