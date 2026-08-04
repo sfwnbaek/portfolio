@@ -9,7 +9,7 @@ export const aboutData = [
     images: [
       {
         url: 'batik4.jpeg',
-        desc: 'Phase 1: Onboarding & Architecture. Designed a full-stack Crew Scheduling System prototype to replace manual spreadsheet-based rostering with a RESTful API system.'
+        desc: 'Phase 1: "test" Onboarding & Architecture. Designed a full-stack Crew Scheduling System prototype to replace manual spreadsheet-based rostering with a RESTful API system.'
       },
       {
         url: 'batik7.jpeg',
