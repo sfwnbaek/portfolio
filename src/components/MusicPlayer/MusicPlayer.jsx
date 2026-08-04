@@ -12,17 +12,18 @@ import robertMilesCover from '../../assets/images/RobertMiles.jpg';
 // 3. MAP THE IMPORTED VARIABLES TO THE TRACKS
 const tracks = [
   {
-    title: 'Night Cruising',
-    artist: 'Momoko Kikuchi',
-    src: nightCruisingAudio,   // <-- Using the variable, no quotes!
-    cover: momokoKikuchiCover, // <-- Using the variable, no quotes!
-  },
-  {
     title: 'Children',
     artist: 'Robert Miles',
     src: robertMilesAudio,
     cover: robertMilesCover,
+  },
+  {
+    title: 'Night Cruising',
+    artist: 'Momoko Kikuchi',
+    src: nightCruisingAudio,   // <-- Using the variable, no quotes!
+    cover: momokoKikuchiCover, // <-- Using the variable, no quotes!
   }
+
 ];
 
 export default function MusicPlayer() {

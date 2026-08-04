@@ -87,7 +87,7 @@
             
             <div className={styles.terminalBody}>
               <div>
-                <span className={styles.terminalCommand}>&gt; load</span> phase_{imageIndex + 1}.log
+                <span className={styles.terminalCommand}>&gt; load_image</span> -ID 0{imageIndex + 1}
               </div>
               <div className={styles.terminalOutput}>
                 <span>{typedText}</span>

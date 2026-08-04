@@ -27,7 +27,6 @@ export const projectData = [
     // Since this doesn't have a live link, we will use a sleek placeholder iframe, 
     // or you can switch this back to an 'image' property later!
     iframeSrc: 'https://example.com', 
-    demo: '#',
     github: '#'
   }
 ];
