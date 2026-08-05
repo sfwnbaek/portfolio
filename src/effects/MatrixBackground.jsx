@@ -1,14 +1,32 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const MOBILE_BREAKPOINT = 768; // px — adjust to match your own breakpoint
 
 export default function MatrixBackground() {
     const canvasRef = useRef(null);
+    const [isMobile, setIsMobile] = useState(
+        typeof window !== 'undefined' ? window.innerWidth < MOBILE_BREAKPOINT : false
+    );
+
+    // Track viewport width so switching from mobile <-> desktop (e.g. rotating
+    // a tablet, or resizing a browser window) toggles the effect live.
+    useEffect(() => {
+        const mq = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+        const handleChange = (e) => setIsMobile(e.matches);
+        mq.addEventListener('change', handleChange);
+        return () => mq.removeEventListener('change', handleChange);
+    }, []);
 
     useEffect(() => {
+        // On mobile we don't render the canvas at all (see return below), so
+        // there's nothing to animate — skip setting up the whole effect.
+        if (isMobile) return;
+
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         let animationFrameId;
-        
+
         let isLightModeCached = document.body.classList.contains('light-mode');
 
         function resizeCanvas() {
@@ -16,7 +34,6 @@ export default function MatrixBackground() {
             canvas.height = window.innerHeight;
             isLightModeCached = document.body.classList.contains('light-mode');
         }
-        window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
         const chars = "ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ1023456789ABCDEFGHIJKLMNOPQRSTUVWXYZ$%+-*/=<>!";
@@ -28,6 +45,50 @@ export default function MatrixBackground() {
 
         let bubbles = [];
         const maxAmbientBubbles = 45;
+
+        // Ambient particle field (passive, non-reactive) — sits underneath the rain/bubbles
+        let particles = [];
+        const particleCount = 90;
+        const particleColor = '#3fff6b';
+
+        function createParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: 1 + Math.random() * 1.5,
+                speed: 0.1 + Math.random() * 0.3,
+                opacity: 0.15 + Math.random() * 0.35,
+                drift: (Math.random() - 0.5) * 0.15,
+            };
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(createParticle());
+            }
+        }
+
+        function drawParticles() {
+            for (let p of particles) {
+                p.y -= p.speed;
+                p.x += p.drift;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = particleColor;
+                ctx.globalAlpha = p.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                }
+                if (p.x < -10) p.x = canvas.width + 10;
+                if (p.x > canvas.width + 10) p.x = -10;
+            }
+        }
 
         function initStreamsAndBubbles() {
             columns = Math.floor(canvas.width / fontSize);
@@ -41,9 +102,46 @@ export default function MatrixBackground() {
             for (let i = 0; i < maxAmbientBubbles; i++) {
                 bubbles.push(createNewBubble(Math.random() * canvas.width, canvas.height + Math.random() * 200, false));
             }
+            initParticles();
         }
         initStreamsAndBubbles();
-        window.addEventListener('resize', initStreamsAndBubbles);
+
+        // --- Fix for mobile flash + resize glitches ---
+        // Mobile browsers fire 'resize' constantly as the address bar shows/hides
+        // while scrolling. Resizing a canvas always clears it, so without guarding
+        // this caused a visible flash on every scroll tick. We now:
+        //   1. Use a single merged handler (was two separate ones before).
+        //   2. Debounce it so rapid-fire mobile resize events collapse into one.
+        //   3. Ignore events where only the height changed (address bar toggling)
+        //      and only react to real width changes.
+        let lastWidth = window.innerWidth;
+        let resizeTimeout;
+
+        function handleResize() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const newWidth = window.innerWidth;
+                if (newWidth === lastWidth) return; // height-only change, ignore
+                lastWidth = newWidth;
+                resizeCanvas();
+                initStreamsAndBubbles();
+            }, 150);
+        }
+        window.addEventListener('resize', handleResize);
+
+        // --- Fix for minimize/tab-switch flash ---
+        // requestAnimationFrame pauses while the tab is hidden. Resuming it without
+        // guarding causes a jarring flash (stale fade overlay + frame jump). We
+        // explicitly cancel the loop on hide and cleanly restart it on show.
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                cancelAnimationFrame(animationFrameId);
+            } else {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = requestAnimationFrame(drawMatrix);
+            }
+        }
+        document.addEventListener('visibilitychange', handleVisibilityChange);
 
         function createNewBubble(x, y, isTrail = false) {
             return {
@@ -59,7 +157,7 @@ export default function MatrixBackground() {
         }
 
         let mouse = { x: -1000, y: -1000, lastX: 0, lastY: 0 };
-        
+
         const handleMouseMove = (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
@@ -92,8 +190,13 @@ export default function MatrixBackground() {
             isLightModeCached = document.body.classList.contains('light-mode');
 
             if (!isLightModeCached) {
-                ctx.fillStyle = 'rgba(5, 5, 5, 0.08)'; 
+                // fade previous frame instead of clearing, so particles + rain both trail
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // ambient particles drawn first, underneath the rain
+                drawParticles();
+
                 ctx.font = fontSize + 'px monospace';
 
                 for (let i = 0; i < rainDrops.length; i++) {
@@ -124,9 +227,8 @@ export default function MatrixBackground() {
                         ctx.fillText(drawText, finalX, finalY);
                         ctx.fillStyle = '#ffffff';
                         ctx.fillText(drawText, finalX + 1, finalY + 1);
-                    } 
-                    // 🔮 MAGIC TRICK: We deleted the 'else' block that used to draw the standard falling rain.
-                    // Now, it only draws when the mouse is near!
+                    }
+                    // Only draws characters when the mouse is near — no standard falling rain otherwise.
 
                     rainDrops[i] += columnSpeeds[i];
 
@@ -136,12 +238,16 @@ export default function MatrixBackground() {
                     }
                 }
             } else {
-                ctx.clearRect(0, 0, canvas.width, canvas.height); 
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // ambient particles in light mode too, drawn before bubbles
+                drawParticles();
+
                 for (let i = bubbles.length - 1; i >= 0; i--) {
                     let b = bubbles[i];
                     b.y -= b.speedY;
                     b.angle += b.wobbleSpeed;
-                    
+
                     let currentDrawX = Math.floor(b.x + Math.sin(b.angle) * b.wobbleRange);
                     let currentDrawY = Math.floor(b.y);
 
@@ -156,7 +262,7 @@ export default function MatrixBackground() {
                     }
 
                     if (b.isMouseTrail) {
-                        b.opacity -= 0.007; 
+                        b.opacity -= 0.007;
                         if (b.opacity <= 0) { bubbles.splice(i, 1); continue; }
                     }
 
@@ -183,13 +289,18 @@ export default function MatrixBackground() {
         drawMatrix();
 
         return () => {
-            window.removeEventListener('resize', resizeCanvas);
-            window.removeEventListener('resize', initStreamsAndBubbles);
+            clearTimeout(resizeTimeout);
+            window.removeEventListener('resize', handleResize);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseleave', handleMouseLeave);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [isMobile]);
+
+    // On mobile, skip the canvas entirely — a plain CSS dot-grid (see
+    // index.css) is used instead. Nothing to animate, nothing to render here.
+    if (isMobile) return null;
 
     return (
         <canvas
@@ -198,9 +309,9 @@ export default function MatrixBackground() {
                 position: 'fixed',
                 top: 0, left: 0,
                 width: '100vw', height: '100vh',
-                zIndex: -1,
+                zIndex: 0,
                 pointerEvents: 'none',
-                mixBlendMode: 'screen' 
+                mixBlendMode: 'screen'
             }}
         />
     );

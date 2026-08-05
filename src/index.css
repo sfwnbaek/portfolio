@@ -7,19 +7,41 @@
 html, body {
     width: 100%;
     overflow-x: hidden;
-}/* src/index.css */
+}
+/* src/index.css */
 
 html, body {
+    /* Solid dark base color BEHIND the canvas. Without this, the browser
+       paints its default white background for a split second during
+       minimize/restore or resize before the canvas re-renders — that's
+       the flash you're seeing. */
+    background-color: #0a0a0a;
 
-    
-    background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    color: #f3e9ea;
+    font-family: monospace, sans-serif;
 
-background-size: 40px 40px; /* Size of the grid squares (change to 60px if you want it larger) */
-  color: #f3e9ea;
-  font-family: monospace, sans-serif;
+    scroll-behavior: smooth !important;
+    scroll-padding-top: 80px !important;
 
-  scroll-behavior: smooth !important;
-  scroll-padding-top: 80px !important; 
+
+
+    /* Removes the gray/blue tap-highlight flash on mobile taps. */
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    min-height: 100dvh;
+}
+
+/* Mobile: no canvas animation runs (see MatrixBackground.jsx), so show a
+   plain static dot-grid instead. Keep this breakpoint in sync with
+   MOBILE_BREAKPOINT in MatrixBackground.jsx. */
+@media (max-width: 767px) {
+    html, body {
+        background-image:
+            linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+        background-attachment: fixed;
+    }
 }

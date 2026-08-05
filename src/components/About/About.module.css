@@ -235,73 +235,123 @@
 }
 
 /* =========================================
-   📱 MOBILE RESPONSIVE STYLES (ABOUT)
+   📱 MOBILE RESPONSIVE STYLES (ABOUT ME)
 ========================================= */
 
-/* Tablet & Smaller Screens */
-@media (max-width: 1024px) {
-  .splitContainer {
-    flex-direction: column; /* Stacks the Terminal on top of the Image */
-  }
-  .navArrow {
-    display: none; /* Hide the massive arrows on mobile/tablet */
-  }
-}
-
-/* Phones Specifically */
 @media (max-width: 768px) {
   /* 1. Tighten the overall section padding */
   .aboutSection {
-    padding: 4rem 1rem;
+    padding: 3rem 1rem; 
   }
 
   .cursor {
     display: none !important;
   }
 
-  /* 🚀 NEW: Shrink the Title and tighten the line gap on mobile */
+  /* 2. Shrink Title */
   .sectionTitle { 
-    font-size: 1.8rem; 
+    font-size: 1.6rem; 
   }
   .titleContainer {
     gap: 1rem; 
-    margin-bottom: 2.5rem; /* Less empty space below title on mobile */
+    margin-bottom: 2rem; 
   }
 
-  /* 2. Fix the split container gap and height */
+  /* 3. Stack Description Top, Image Bottom (and tighten gap) */
   .splitContainer {
-    gap: 1.5rem;
-    min-height: auto; /* Removes the massive 550px minimum height */
+    flex-direction: column; 
+    gap: 1rem; 
+    min-height: auto; 
   }
 
-  /* 3. Shrink the terminal UI to fit narrow screens */
+  /* 4. Make Terminal (Description) Smaller */
   .terminalHeader {
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 1rem;
   }
 
   .terminalTitle {
     font-size: 0.85rem;
-    margin-left: 1rem;
   }
 
   .terminalBody {
-    padding: 1.5rem; /* Reduced from 2.5rem */
-    font-size: 0.9rem; /* Smaller monospace font so it doesn't overflow */
-    gap: 1rem;
+    padding: 1.2rem; 
+    font-size: 0.85rem; /* Smaller text */
+    line-height: 1.4;
+    gap: 0.8rem;
   }
 
   .terminalOutput {
-    word-break: break-word; /* Forces long links/words to wrap instead of breaking the box */
+    word-break: break-word; 
   }
 
-  /* 4. Adjust the Image Viewer size */
+  /* 5. Make the Image Area Smaller & Leave Room for Buttons */
   .mediaPane {
-    min-height: 300px; /* Reduced from 400px so it doesn't take up the whole screen */
+    height: 250px; /* Caps the picture height so it isn't huge */
+    min-height: 250px; 
+    margin-bottom: 4rem; /* 🚀 Creates a large empty gap BELOW the picture */
+    position: relative;
+    overflow: visible !important; /* Allows buttons to drop outside the box */
+  }
+
+  /* Keep the image from looking stretched in the smaller box */
+  .mediaPane img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; 
   }
 
   .clickHint {
     font-size: 0.75rem;
-    bottom: 15px;
+    bottom: 10px;
     padding: 0.4rem 0.8rem;
+  }
+
+  /* 6. Center the Buttons Below the Image */
+  .navArrow {
+    position: absolute;
+    top: auto !important; /* Removes vertical centering */
+    bottom: -50px !important; /* Pushes them down into the empty gap */
+    transform: none !important;
+
+    /* Force a perfect circle regardless of glyph/icon size inside */
+    width: 40px !important;
+    height: 40px !important;
+    aspect-ratio: 1 / 1;
+    padding: 0 !important;
+    margin: 0;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(10, 5, 8, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+
+    /* Reset text/line-height so the arrow glyph doesn't push off-center */
+    line-height: 1;
+    font-size: 1rem;
+    color: #f3e9ea;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* If the arrow is rendered as an <svg> icon, size + center it explicitly */
+  .navArrow svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin: 0;
+  }
+
+  /* Pull Left button slightly to the left of the center */
+  .navArrow:first-of-type {
+    left: calc(50% - 50px) !important;
+  }
+
+  /* Pull Right button slightly to the right of the center */
+  .navArrow:last-of-type {
+    right: calc(50% - 50px) !important;
   }
 }

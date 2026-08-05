@@ -266,22 +266,22 @@
     margin-bottom: 2.5rem; 
   }
 
-  /* 3. Scale down the 3D stage */
+  /* 3. Scale up the 3D stage to hold the taller cards */
   .carouselContainer {
-    height: 420px; /* Reduced from 600px */
+    height: 520px; /* Increased from 420px */
     perspective: 800px; /* Flattens the 3D perspective slightly for tiny screens */
   }
 
-  /* 4. Shrink the Cards to Phone Size */
+  /* 4. Adjust the Cards to be taller on Phone Size */
   .card {
     width: 85vw; /* Automatically fits exactly 85% of their phone screen */
     max-width: 340px; /* Safety cap so it doesn't get weird on landscape phones */
-    height: 380px; /* Reduced from 500px */
+    height: 480px; /* Increased from 380px to give more room */
   }
 
-  /* Shrink the Image / Iframe area */
+  /* 🔥 Makes the Image / Iframe area much taller to show the web preview! */
   .cardImage, .iframeContainer {
-    height: 180px; /* Reduced from 320px */
+    height: 250px; /* Increased from 180px */
   }
 
   /* 5. Tighten the Text and Padding */
@@ -318,18 +318,16 @@
 
   /* 7. Readjust the 3D Math for Mobile! */
   .prevCard {
-    /* Pulled in from -65% to -50% so they stay visible on screen */
     transform: translateX(-50%) scale(0.75) translateZ(-100px) rotateY(15deg);
   }
 
   .nextCard {
-    /* Pulled in from 65% to 50% */
     transform: translateX(50%) scale(0.75) translateZ(-100px) rotateY(-15deg);
   }
 
   /* 8. Fix the Navigation Buttons */
   .controls {
     gap: 1.5rem;
-    margin-top: 1rem; /* Adjusts where the Next/Prev buttons sit under the smaller cards */
+    margin-top: 1rem; 
   }
 }

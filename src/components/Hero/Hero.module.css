@@ -383,7 +383,7 @@
 }
 
 /* ========================================================== */
-/* Mobile                                                       */
+/* Mobile                                                     */
 /* ========================================================== */
 @media (max-width: 768px) {
     .heroContentWrapper {
@@ -391,12 +391,22 @@
         text-align: center;
         gap: 30px;
     }
+    
     .textContent {
         text-align: center;
     }
+
+    /* 🚀 NEW: Shrink the Name/Title for mobile */
+    .textContent h1 { 
+        font-size: 3rem; /* Tweak this number down (e.g., 1.8rem) if you want it even smaller! */
+        line-height: 1.2;
+        margin-bottom: 1rem; /* Keeps it tight with the text below it */
+    }
+
     .socialLinks {
         justify-content: center;
     }
+    
     .profileAvatar {
         width: 220px;
         height: 220px;

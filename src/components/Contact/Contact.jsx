@@ -5,8 +5,8 @@ import { contactData } from './ContactData';
 export default function Contact() {
   return (
     <section id="contact" className={styles.contactSection}>
-      
-      {/* 📡 Background Radar Animation */}
+
+      {/* 📡 Background Radar Animation (Moved BACK to the center) */}
       <div className={styles.beaconContainer}>
         <div className={styles.beaconRing}></div>
         <div className={styles.beaconRing}></div>
@@ -17,7 +17,7 @@ export default function Contact() {
         <h2 className={styles.sectionTitle}>Contact Me</h2>
       </div>
 
-      {/* 📇 The Glassmorphic Cards */}
+      {/* 📇 The Glassmorphic Cards (Professional Network) */}
       <div className={styles.cardGrid}>
         {contactData.map((contact) => (
           <a 
@@ -40,7 +40,11 @@ export default function Contact() {
 
       {/* 🔒 Final Footer Sign-off */}
       <div className={styles.systemFooter}>
-        MUHAMMAD SAFWAN BIN RABE // SOFTWARE ENGINEER
+        <div className={styles.textWrapper}>
+          <span>MUHAMMAD SAFWAN BIN RABE</span>
+          <span className={styles.separator}> // </span>
+          <span>SOFTWARE ENGINEER</span>
+        </div>
       </div>
       
     </section>

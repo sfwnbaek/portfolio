@@ -49,23 +49,16 @@
   overflow: hidden;
 }
 
-.subtitle {
-  color: #e50914; 
-  font-family: monospace;
-  margin-bottom: 5rem;
-  letter-spacing: 1px;
-}
-
-/* --- The Radar Background Animation --- */
+/* --- The Radar Background Animation (Centered behind cards) --- */
 .beaconContainer {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -55%);
+  transform: translate(-50%, -50%); /* Perfectly centers it behind the grid */
   width: 100%;
   height: 100%;
-  pointer-events: none; /* So the user can click through it */
-  z-index: -1;
+  pointer-events: none; /* Allows you to click the cards through the animation */
+  z-index: -1; /* 🚀 CRITICAL: This tucks it securely BEHIND the cards! */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,7 +156,7 @@
   color: #fff;
 }
 
-/* --- System Footer --- */
+/* --- System Footer & Text Wrapper --- */
 .systemFooter {
   margin-top: 6rem;
   color: rgba(255, 255, 255, 0.2);
@@ -171,10 +164,26 @@
   font-size: 0.8rem;
   letter-spacing: 2px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.textWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.separator {
+  margin: 0 10px;
+  opacity: 0.7;
 }
 
 /* =========================================
-   📱 MOBILE RESPONSIVE STYLES (CONTACT)
+  📱 MOBILE RESPONSIVE STYLES (CONTACT)
 ========================================= */
 
 @media (max-width: 768px) {
@@ -183,7 +192,7 @@
     padding: 4rem 1rem;
   }
 
-  /* 2. Shrink Title (Matches all other sections) */
+  /* 2. Shrink Title */
   .sectionTitle { 
     font-size: 1.8rem; 
   }
@@ -192,50 +201,28 @@
     margin-bottom: 2.5rem; 
   }
 
-  /* 3. Stack the layout (Assuming you have a container holding the beacon & form) */
-  /* If your container has a different name, swap .contactContainer with your class name! */
-  .contactContainer {
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem;
-  }
-
-  /* 4. Scale down the Beacon slightly so it doesn't dominate the screen */
+  /* 3. Center the beacon behind the cards on phones */
   .beaconContainer {
-    transform: scale(0.8) translateY(-20px);
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
     margin-bottom: 0;
   }
 
-  /* 5. Make Form Inputs Touch-Friendly */
-  .contactForm {
-    width: 100%;
+  /* 4. Footer Text Stacking Logic */
+  .textWrapper {
+    flex-direction: column;
+    text-align: center;
   }
 
-  /* Replace .input and .textarea with your actual class names */
-  .input, 
-  .textarea {
-    width: 100%;
-    font-size: 1rem; /* 🚀 CRITICAL: Prevents iPhone from auto-zooming when typing! */
-    padding: 0.8rem 1rem; /* Bigger touch targets for thumbs */
+  /* Hide the // completely on phones */
+  .separator {
+    display: none; 
   }
 
-  .textarea {
-    height: 150px; /* Slightly shorter text area for phones */
-  }
-
-  /* 6. Full-Width Submit Button */
-  .submitBtn {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.1rem;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* 7. If you have Social Links at the bottom, wrap them nicely */
-  .socialLinks {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
+  /* Add a tiny gap between name and role */
+  .textWrapper span:last-child {
+    margin-top: 5px; 
+    opacity: 0.8;
   }
 }
