@@ -1,29 +1,31 @@
+// src/components/MusicPlayer/MusicPlayer.jsx
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './MusicPlayer.module.css';
 
-// 🎵 1. IMPORT YOUR AUDIO FILES HERE (Make sure these match your exact file names!)
+// 🎵 1. IMPORT YOUR AUDIO FILES
 import nightCruisingAudio from '../../assets/audio/NightCruising.mp3';
 import robertMilesAudio from '../../assets/audio/ChildrenRobertMiles.mp3';
 
-// 🖼️ 2. IMPORT YOUR COVER ART HERE (Make sure these match your exact file names!)
+// 🖼️ 2. IMPORT YOUR COVER ART
 import momokoKikuchiCover from '../../assets/images/MomokoKikuchi.jpg';
 import robertMilesCover from '../../assets/images/RobertMiles.jpg';
 
-// 3. MAP THE IMPORTED VARIABLES TO THE TRACKS
-const tracks = [
+// 🚀 3. EXPORTED DATA ARRAY (Clean architecture, easy to add more tracks later!)
+export const tracks = [
   {
+    id: "children",
     title: 'Children',
     artist: 'Robert Miles',
     src: robertMilesAudio,
     cover: robertMilesCover,
   },
   {
+    id: "night_cruising",
     title: 'Night Cruising',
     artist: 'Momoko Kikuchi',
-    src: nightCruisingAudio,   // <-- Using the variable, no quotes!
-    cover: momokoKikuchiCover, // <-- Using the variable, no quotes!
+    src: nightCruisingAudio, 
+    cover: momokoKikuchiCover, 
   }
-
 ];
 
 export default function MusicPlayer() {
@@ -159,7 +161,7 @@ export default function MusicPlayer() {
       onBlur={handleFocusOut}
     >
       
-      {/* 1. The Turntable Button (Must be first to layer correctly) */}
+      {/* 1. The Turntable Button */}
       <button 
         className={styles['deck-disc']} 
         onClick={togglePlay}
@@ -175,13 +177,13 @@ export default function MusicPlayer() {
         <svg className={`${styles['deck-icon']} ${styles['icon-pause']}`} viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>
       </button>
 
-      {/* 2. Tonearm (Must be a sibling, purely decorative) */}
+      {/* 2. Tonearm */}
       <div className={styles['deck-tonearm']} aria-hidden="true">
         <span className={styles['tonearm-arm']}></span>
         <span className={styles['tonearm-pivot']}></span>
       </div>
 
-      {/* 3. The Sliding Panel (Unfurls to the right of the disc) */}
+      {/* 3. The Sliding Panel */}
       <div className={styles['deck-panel']} role="region" aria-label="Music player controls">
         
         <div className={styles['deck-info']}>

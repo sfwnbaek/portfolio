@@ -182,11 +182,7 @@ export default function Hero() {
                 </div>
             </div>
 
-            <a href="#about" className={`${styles.scrollIndicator} ${scrolled ? styles.hidden : ''}`}>
-                <div className={styles.mouse}>
-                    <div className={styles.wheel}></div>
-                </div>
-            </a>
+
         </section>  
     );
 }

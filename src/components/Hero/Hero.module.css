@@ -324,47 +324,6 @@
     100% { transform: translate3d(-50%, 0, 0); }
 }
 
-/* ========================================================== */
-/* Scroll indicator                                             */
-/* ========================================================== */
-.scrollIndicator {
-    position: absolute;
-    bottom: 30px;
-    display: flex;
-    justify-content: center;
-    opacity: 0.6;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-}
-
-.scrollIndicator:hover {
-    opacity: 1;
-}
-
-.scrollIndicator.hidden {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.mouse {
-    width: 24px;
-    height: 38px;
-    border: 2px solid #a0aec0;
-    border-radius: 15px;
-    position: relative;
-}
-
-.wheel {
-    width: 4px;
-    height: 8px;
-    background: #e63946;
-    border-radius: 2px;
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    animation: scrollWheel 1.5s infinite;
-}
-
 @keyframes scrollWheel {
     0% { top: 6px; opacity: 1; }
     100% { top: 20px; opacity: 0; }

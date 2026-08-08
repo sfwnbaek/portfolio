@@ -6,8 +6,8 @@ import About from './components/About/About.jsx';
 import Projects from './components/Projects/Projects.jsx';
 import Skills from './components/Skills/Skills.jsx';
 import Contact from './components/Contact/Contact.jsx';
-import MusicPlayer from './components/MusicPlayer/MusicPlayer.jsx'; 
-
+import MusicPlayer from './components/MusicPlayer/MusicPlayer.jsx';
+import NowStatus from './components/NowStatus/NowStatus.jsx';
 
 export default function App() {
   return (
@@ -17,6 +17,9 @@ export default function App() {
 
       {/* LAYER 2: Interactive Matrix Rain (z-index: -1, mix-blend-mode: screen) */}
       <MatrixBackground />
+
+      {/* Floating System Status HUD */}
+      <NowStatus />
       
       {/* Navigation */}
       <Navbar />
