@@ -178,19 +178,25 @@
   box-shadow: 0 0 30px rgba(229, 9, 20, 0.3); /* Keeps the subtle red glow on hover */
 }
 
+/* The frame that locks the size of the box */
 .imageWrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
+  width: 100%;       /* Adjust this based on your pane's layout */
+  height: 350px;     /* Set a strict, fixed height so it never jumps around */
+  background-color: rgba(10, 5, 8, 0.5); /* Fills empty space with dark background */
+  border: 0px solid rgba(230, 57, 70, 0.2);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
 
+/* The actual image inside the frame */
 .mediaImage {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  /* 🚀 Replaced the filter with a simple transform transition */
-  transition: transform 0.4s ease; 
+  object-fit: contain; /* Prevents stretching and cropping entirely */
+  border-radius: 4px;
 }
 
 /* 🚀 Simple, premium zoom effect on hover */
